@@ -6,6 +6,11 @@ export const GET: APIRoute = async function GET({ params, request }) {
   return new Response(
     JSON.stringify({
       time: new Date(),
-    })
+    }),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
   );
 };
