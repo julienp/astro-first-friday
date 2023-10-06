@@ -11,7 +11,7 @@ export default defineConfig({
   output: "server",
   adapter: netlify({
     edgeMiddleware: true,
-    builders: true,
+    builders: false,
   }),
   redirects: {
     "/test": {
