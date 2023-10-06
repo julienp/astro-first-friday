@@ -12,4 +12,10 @@ export default defineConfig({
   adapter: netlify({
     edgeMiddleware: true,
   }),
+  redirects: {
+    "/test": {
+      status: 302,
+      destination: "/json",
+    },
+  },
 });
