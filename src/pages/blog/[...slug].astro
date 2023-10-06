@@ -1,20 +1,31 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import { type CollectionEntry, getCollection } from "astro:content";
+import BlogPost from "../../layouts/BlogPost.astro";
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<'blog'>;
+// export async function getStaticPaths() {
+// 	const posts = await getCollection('blog');
+// 	return posts.map((post) => ({
+// 		params: { slug: post.slug },
+// 		props: post,
+// 	}));
+// }
+// type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
+// const post = Astro.props;
+// const { Content } = await post.render();
+
+// In SSR mode we can't use `getStaticPaths`
+// We get a warning during the build:
+// 1:14:38 PM: 11:14:38 AM [getStaticPaths] The getStaticPaths() statement in /src/pages/blog/[...slug].astro has been ignored because `output: "server"` is set.
+const posts = await getCollection("blog");
+type Props = CollectionEntry<"blog">;
+
+const { slug } = Astro.params;
+const post = posts.find((page) => page.slug === slug);
+if (!post) return Astro.redirect("/404");
 const { Content } = await post.render();
 ---
 
 <BlogPost {...post.data}>
-	<Content />
+  <Content />
 </BlogPost>
